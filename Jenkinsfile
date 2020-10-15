@@ -1,9 +1,20 @@
 pipeline {
     agent any
 	stages{
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 		stage('Build') {
             steps {
                 script {
+                    sh "docker login --username palak06 --password Abcdef@123 hub.docker.com"
                     sh "docker build -t hub.docker.com/palak06/vulnerability:v1 ."
                 }
             }
