@@ -14,27 +14,26 @@ pipeline {
 		stage('Build') {
             steps {
                 script {
-                    sh "docker login --username palak06 --password Abcdef@123 hub.docker.com"
-                    sh "docker build -t hub.docker.com/palak06/vulnerability:v1 ."
+                    sh "docker build -t palak06/vulnerability:v1 ."
                 }
             }
         }
         stage('Push') {
             steps {
                 script {
-                    sh "docker push hub.docker.com/palak06/vulnerability:v1"
+                    sh "docker push palak06/vulnerability:v2"
                     sh "sleep 30"
                     sh "docker rmi \$(docker images -q)"
                     sh "docker images -a"
                     sh "sleep 30"
-                    sh "docker pull hub.docker.com/palak06/vulnerability:v1"
+                    sh "docker pull palak06/vulnerability:v2"
                 }
             }
         }
         stage('Analyze'){
             steps {
                 script {
-                    def imageLine = "hub.docker.com/palak06/vulnerability:v1"
+                    def imageLine = "palak06/vulnerability:v2"
                     writeFile file: 'anchore_images', text: imageLine
                     anchore name: 'anchore_images'
                 }
