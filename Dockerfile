@@ -1,2 +1,3 @@
-FROM alpine:3.11
+FROM alpine:latest
+USER root
 RUN apk add --no-cache perl
